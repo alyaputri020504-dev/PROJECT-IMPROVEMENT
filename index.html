@@ -141,22 +141,60 @@
   }
   .btn-ghost:hover{border-color:var(--teal);}
 
-  .hero-visual{position:relative;height:420px;}
+  .hero-visual{
+    position:relative;
+    height:440px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .hero-glow{
+    position:absolute;
+    inset:-20px -15px;
+    background:radial-gradient(ellipse at 60% 50%, rgba(0,163,157,0.24) 0%, rgba(248,173,60,0.18) 45%, transparent 70%);
+    filter:blur(36px);
+    z-index:0;
+    pointer-events:none;
+  }
+  .hero-bg-photo{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    -webkit-mask-image: radial-gradient(ellipse 95% 90% at 55% 50%, #000 62%, transparent 100%);
+    mask-image: radial-gradient(ellipse 95% 90% at 55% 50%, #000 62%, transparent 100%);
+    border-radius:40px;
+  }
+  .hero-bg-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 35%;
+    display:block;
+    filter:contrast(1.05) saturate(1.08);
+  }
+  .hero-photo-gradient{
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(90deg, rgba(245,250,249,0.9) 0%, rgba(245,250,249,0.25) 32%, transparent 62%),
+      linear-gradient(0deg, rgba(245,250,249,0.85) 0%, rgba(245,250,249,0.2) 25%, transparent 55%),
+      linear-gradient(135deg, rgba(0,163,157,0.2) 0%, transparent 45%, rgba(248,173,60,0.18) 100%);
+    pointer-events:none;
+  }
   .float-card{
     position:absolute;background:var(--surface);border-radius:var(--radius-md);
     box-shadow:var(--shadow-float);padding:18px 20px;
     animation:floaty 7s ease-in-out infinite;
+    z-index:2;
   }
   @keyframes floaty{
     0%,100%{transform:translateY(0);}
     50%{transform:translateY(-16px);}
   }
-  .hero-photo{
-    position:absolute;inset:6% 8% 10% 12%;
-    border-radius:32px;overflow:hidden;
-    background:linear-gradient(160deg,var(--teal) 0%,var(--teal-deep) 100%);
-  }
-  .hero-photo svg{width:100%;height:100%;}
   .card-streak{top:2%;left:-4%;animation-delay:-1s;}
   .card-streak .num{font-family:'Sora';font-weight:800;font-size:1.5rem;color:var(--teal);}
   .card-streak .lbl{font-size:0.78rem;color:var(--muted);margin-top:2px;}
@@ -378,31 +416,10 @@
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-photo">
-        <svg viewBox="0 0 400 420" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#00B5AE"/>
-              <stop offset="100%" stop-color="#00655F"/>
-            </linearGradient>
-          </defs>
-          <rect width="400" height="420" fill="url(#skyg)"/>
-          <circle cx="330" cy="70" r="46" fill="#F8AD3C" opacity="0.9"/>
-          <g transform="translate(60,150)">
-            <circle cx="90" cy="30" r="34" fill="#FFD9A6"/>
-            <rect x="45" y="60" width="90" height="120" rx="26" fill="#FFFFFF"/>
-            <rect x="45" y="60" width="90" height="120" rx="26" fill="#F8AD3C" opacity="0.18"/>
-            <rect x="60" y="100" width="60" height="46" rx="8" fill="#00A39D"/>
-          </g>
-          <g transform="translate(190,190)">
-            <circle cx="60" cy="22" r="26" fill="#F4C08A"/>
-            <rect x="30" y="46" width="62" height="90" rx="20" fill="#FFFFFF"/>
-          </g>
-          <g transform="translate(-10,210)">
-            <circle cx="50" cy="20" r="24" fill="#F4C08A"/>
-            <rect x="22" y="42" width="56" height="80" rx="18" fill="#FFFFFF" opacity="0.92"/>
-          </g>
-        </svg>
+      <div class="hero-glow"></div>
+      <div class="hero-bg-photo">
+        <img src="assets/hero-children.jpg" alt="Anak-anak penerima manfaat Sahabat Anak Yatim tersenyum ceria" />
+        <div class="hero-photo-gradient"></div>
       </div>
       <div class="float-card card-streak">
         <div class="num">12x</div>
