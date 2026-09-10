@@ -241,6 +241,108 @@
   .program-card h3{font-size:1.2rem;margin-bottom:10px;}
   .program-card p{color:var(--muted);font-size:0.94rem;line-height:1.6;}
 
+  /* ================= STORYLINE SECTION ================= */
+  .storyline-head{margin-top:2vh;}
+  .story-grid{
+    max-width:1280px;margin:0 auto;padding:0 6vw 8vh;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  .story-card{
+    background:var(--surface);
+    border-radius:var(--radius-md);
+    border:1px solid var(--line);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    box-shadow:var(--shadow-soft);
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .story-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--shadow-float);
+    border-color:rgba(0,163,157,0.4);
+  }
+  .story-media{
+    position:relative;
+    width:100%;
+    height:210px;
+    overflow:hidden;
+    background:#E2F2F0;
+  }
+  .story-media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    transition:transform .5s ease;
+    display:block;
+  }
+  .story-card:hover .story-media img{
+    transform:scale(1.04);
+  }
+  .story-pill{
+    position:absolute;
+    top:14px;
+    left:14px;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(6px);
+    color:var(--teal-deep);
+    font-size:0.75rem;
+    font-weight:700;
+    padding:5px 12px;
+    border-radius:999px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  }
+  .story-body{
+    padding:24px 22px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+  .story-title{
+    font-family:'Sora',sans-serif;
+    font-size:1.12rem;
+    line-height:1.35;
+    font-weight:700;
+    color:var(--teal-deep);
+    margin-bottom:12px;
+    transition:color .2s;
+  }
+  .story-card:hover .story-title{
+    color:var(--teal);
+  }
+  .story-desc{
+    color:var(--muted);
+    font-size:0.92rem;
+    line-height:1.65;
+    margin-bottom:22px;
+    flex:1;
+  }
+  .story-footer{
+    margin-top:auto;
+  }
+  .btn-story-cta{
+    width:100%;
+    padding:12px 20px;
+    border-radius:999px;
+    border:1.5px solid var(--teal);
+    background:transparent;
+    color:var(--teal);
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:0.92rem;
+    cursor:pointer;
+    transition:all .25s ease;
+    text-align:center;
+    display:inline-block;
+  }
+  .btn-story-cta:hover{
+    background:var(--teal);
+    color:#fff;
+    box-shadow:0 8px 18px -4px rgba(0,163,157,0.4);
+    transform:translateY(-2px);
+  }
+
   .cta-band{
     margin:0 6vw 8vh;max-width:1280px;margin-left:auto;margin-right:auto;
     background:linear-gradient(120deg,var(--teal-deep),var(--teal));
@@ -376,7 +478,7 @@
   @media(max-width:1000px){
     .hero{grid-template-columns:1fr;}
     .hero-visual{order:-1;height:300px;}
-    .stats-strip, .program-grid{grid-template-columns:repeat(2,1fr);}
+    .stats-strip, .program-grid, .story-grid{grid-template-columns:repeat(2,1fr);}
     .dash-wrap{grid-template-columns:1fr;}
     .dash-sidebar{flex-direction:row;overflow-x:auto;}
     .dash-nav{flex-direction:row;}
@@ -384,7 +486,7 @@
     .dash-grid{grid-template-columns:1fr;}
   }
   @media(max-width:600px){
-    .stats-strip, .program-grid{grid-template-columns:1fr;}
+    .stats-strip, .program-grid, .story-grid{grid-template-columns:1fr;}
     .kpi-grid{grid-template-columns:1fr 1fr;}
   }
 </style>
@@ -460,6 +562,56 @@
       <h3>Renovasi Panti & Rumah Singgah</h3>
       <p>Perbaikan fasilitas tempat tinggal agar anak-anak punya lingkungan yang aman dan layak.</p>
     </div>
+  </div>
+
+  <!-- ============ STORYLINE: KISAH MENGHARUKAN ============ -->
+  <div class="section-head storyline-head">
+    <div class="kicker">Liputan & Jejak Cerita</div>
+    <h2>Kisah Nyata: Harapan yang Kamu Nyalakan</h2>
+    <p>Di balik setiap bantuan rutin, ada air mata yang terhapus dan cita-cita yang kembali tegak. Simak liputan kisah haru adik-adik yatim binaan kami.</p>
+  </div>
+  <div class="story-grid">
+    <article class="story-card">
+      <div class="story-media">
+        <img src="assets/story-1.jpg" alt="Anak-anak kembali bersekolah dengan gembira" loading="lazy" />
+        <span class="story-pill">Pendidikan</span>
+      </div>
+      <div class="story-body">
+        <h3 class="story-title">Tentukan Langkah: Membantu Anak-Anak Kembali ke Sekolah</h3>
+        <p class="story-desc">Ada berbagai alasan kenapa mereka terpaksa putus sekolah: kesulitan ekonomi keluarga, akses yang sulit dijangkau, hingga kehilangan orang tua tercinta. Uluran tanganmu membuka kembali pintu kelas bagi mereka.</p>
+        <div class="story-footer">
+          <button class="btn-story-cta" data-page="journey">Bantu Sekarang</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="story-card">
+      <div class="story-media">
+        <img src="assets/story-2.jpg" alt="Anak-anak di pelosok menyelesaikan sekolah" loading="lazy" />
+        <span class="story-pill">Masa Depan</span>
+      </div>
+      <div class="story-body">
+        <h3 class="story-title">Bantu Anak Indonesia Menyelesaikan Pendidikannya</h3>
+        <p class="story-desc">Bersama Sahabat Anak Yatim, Anda bisa ikut serta memastikan anak Indonesia dapat terus melanjutkan sekolah dan mengejar cita-citanya. Donasi sekarang dan buka pintu kesempatan baru.</p>
+        <div class="story-footer">
+          <button class="btn-story-cta" data-page="journey">Bantu Sekarang</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="story-card">
+      <div class="story-media">
+        <img src="assets/story-3.jpg" alt="Perlindungan dan kasih sayang untuk anak yatim rentan" loading="lazy" />
+        <span class="story-pill">Perlindungan & Kasih</span>
+      </div>
+      <div class="story-body">
+        <h3 class="story-title">Lindungi Masa Depan & Senyuman Anak-Anak Rentan</h3>
+        <p class="story-desc">Untuk melindungi anak-anak yang paling rentan, berbagai upaya dilakukan bersama donatur, salah satunya adalah pemenuhan kebutuhan dasar, lingkungan aman, serta pendampingan penuh kasih.</p>
+        <div class="story-footer">
+          <button class="btn-story-cta" data-page="journey">Bantu Sekarang</button>
+        </div>
+      </div>
+    </article>
   </div>
 
   <div class="cta-band">
