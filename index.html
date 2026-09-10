@@ -359,61 +359,242 @@
     flex-wrap:wrap;gap:12px;
   }
 
-  /* ================= MEMBERSHIP JOURNEY ================= */
-  .journey-hero{
-    max-width:900px;margin:0 auto;padding:8vh 6vw 2vh;text-align:center;
+  /* ================= MEMBERSHIP JOURNEY & DONATION ================= */
+  .journey-header{
+    max-width:840px;margin:0 auto;padding:6vh 6vw 4vh;text-align:center;
   }
-  .journey-hero .kicker{color:var(--teal-deep);font-weight:700;font-size:0.88rem;}
-  .journey-hero h1{font-size:clamp(2rem,3.4vw,2.8rem);margin-top:12px;}
-  .journey-hero p{color:var(--muted);margin-top:14px;line-height:1.7;font-size:1.02rem;}
-
-  .journey-track{
-    max-width:1000px;margin:6vh auto 0;padding:0 6vw 10vh;position:relative;
+  .journey-header h1{
+    font-size:clamp(2rem,3.4vw,2.8rem);margin-top:12px;
   }
-  .journey-track::before{
-    content:'';position:absolute;left:50%;top:20px;bottom:60px;width:2px;
-    background:repeating-linear-gradient(to bottom, var(--teal) 0 8px, transparent 8px 16px);
-    transform:translateX(-50%);
+  .journey-header p{
+    color:var(--muted);margin-top:14px;line-height:1.7;font-size:1.02rem;
   }
-  @media(max-width:760px){.journey-track::before{left:28px;}}
-
-  .phase-row{
-    display:flex;gap:40px;align-items:flex-start;margin-bottom:56px;position:relative;
-  }
-  .phase-row:nth-child(even){flex-direction:row-reverse;}
-  .phase-node{
-    position:absolute;left:50%;top:6px;transform:translateX(-50%);
-    width:52px;height:52px;border-radius:50%;background:var(--surface);
-    border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;
-    font-family:'Sora';font-weight:800;color:var(--teal);z-index:2;box-shadow:var(--shadow-soft);
-  }
-  @media(max-width:760px){.phase-node{left:28px;}}
-
-  .phase-card{
-    flex:1;background:var(--surface);border-radius:var(--radius-md);
-    padding:28px 26px;border:1px solid var(--line);box-shadow:var(--shadow-soft);
-    animation:floaty 8s ease-in-out infinite;
-  }
-  .phase-row:nth-child(2) .phase-card{animation-delay:-2.6s;}
-  .phase-row:nth-child(3) .phase-card{animation-delay:-5.2s;}
-  .phase-spacer{flex:1;}
-  @media(max-width:760px){
-    .phase-row, .phase-row:nth-child(even){flex-direction:row;padding-left:70px;}
-    .phase-spacer{display:none;}
+  .membership-container{
+    max-width:1240px;margin:0 auto;padding:0 6vw 10vh;
+    display:grid;grid-template-columns:1fr 1.15fr;gap:40px;align-items:start;
   }
 
-  .phase-tag{font-size:0.78rem;font-weight:700;color:var(--amber-deep);}
-  .phase-card h3{font-size:1.25rem;margin-top:8px;}
-  .phase-card .steps{margin-top:16px;display:flex;flex-direction:column;gap:10px;}
-  .phase-card .step{display:flex;gap:10px;align-items:flex-start;font-size:0.92rem;color:var(--teal-ink);}
-  .phase-card .step .dot{
-    min-width:20px;height:20px;border-radius:50%;background:#E4F5F3;color:var(--teal-deep);
-    font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px;
+  /* Left: Badge Showcase */
+  .membership-showcase{position:sticky;top:90px;}
+  .badge-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-float);
+    overflow:hidden;
   }
-  .phase-card .step-desc{color:var(--muted);}
+  .badge-img-box{
+    position:relative;
+    width:100%;
+    height:300px;
+    background:linear-gradient(135deg, #0A2E2C 0%, #00726D 100%);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .badge-img{
+    width:100%;height:100%;
+    object-fit:cover;
+    object-position:center 45%;
+    transition:transform .5s ease;
+  }
+  .badge-card:hover .badge-img{
+    transform:scale(1.03);
+  }
+  .badge-tag{
+    position:absolute;top:16px;right:16px;
+    background:rgba(10,46,44,0.8);backdrop-filter:blur(8px);
+    color:var(--amber);font-size:0.75rem;font-weight:700;
+    padding:6px 14px;border-radius:999px;border:1px solid rgba(248,173,60,0.3);
+  }
+  .badge-card-content{padding:30px 28px;}
+  .badge-ribbon{
+    display:inline-flex;align-items:center;gap:6px;
+    background:#E3F5F3;color:var(--teal-deep);
+    padding:6px 16px;border-radius:999px;
+    font-size:0.88rem;font-weight:700;margin-bottom:12px;
+  }
+  .badge-sub{
+    font-size:0.95rem;line-height:1.6;color:var(--teal-ink);margin-bottom:22px;
+  }
+  .benefit-list{
+    display:flex;flex-direction:column;gap:14px;
+  }
+  .benefit-list li{
+    display:flex;gap:12px;align-items:flex-start;font-size:0.9rem;line-height:1.55;color:var(--muted);
+  }
+  .check-icon{
+    min-width:22px;height:22px;border-radius:50%;
+    background:#E4F5F3;color:var(--teal);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:0.78rem;margin-top:2px;
+  }
 
-  .journey-cta{
-    max-width:640px;margin:0 auto;text-align:center;padding-bottom:10vh;
+  /* Right: Form Card */
+  .membership-form-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-float);
+    padding:36px 34px;
+  }
+  .freq-tabs{
+    display:grid;grid-template-columns:1.2fr 0.8fr;gap:8px;
+    background:var(--bg);padding:6px;border-radius:999px;
+    border:1px solid var(--line);margin-bottom:26px;
+  }
+  .freq-tab{
+    padding:11px 18px;border-radius:999px;font-weight:700;font-size:0.9rem;
+    color:var(--muted);background:transparent;transition:all .25s;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .freq-tab.active{
+    background:var(--teal);color:#fff;box-shadow:0 4px 14px rgba(0,163,157,0.3);
+  }
+  .form-title-group{margin-bottom:26px;}
+  .form-title-group h2{
+    font-size:clamp(1.15rem,2vw,1.4rem);line-height:1.3;color:var(--teal-ink);
+  }
+  .form-title-group .form-desc{
+    margin-top:8px;font-size:0.92rem;color:var(--muted);line-height:1.5;
+  }
+  .form-step{margin-bottom:24px;}
+  .step-label{
+    display:block;font-size:0.88rem;font-weight:700;color:var(--teal-ink);margin-bottom:12px;
+  }
+  .nominal-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+  }
+  .nominal-btn{
+    position:relative;background:var(--bg);border:1.5px solid var(--line);
+    border-radius:var(--radius-md);padding:14px 16px;text-align:center;
+    transition:all .25s ease;
+  }
+  .nominal-btn:hover{border-color:var(--teal);transform:translateY(-2px);}
+  .nominal-btn.active{
+    border-color:var(--teal);background:#EBF7F6;
+    box-shadow:0 0 0 1px var(--teal);
+  }
+  .nominal-btn .n-tag{
+    position:absolute;top:-9px;right:10px;background:var(--amber);
+    color:var(--teal-ink);font-size:0.68rem;font-weight:800;
+    padding:2px 8px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  }
+  .nominal-btn .n-val{
+    display:block;font-family:'Sora';font-weight:700;font-size:1.1rem;color:var(--teal-ink);
+  }
+  .nominal-btn.active .n-val{color:var(--teal-deep);}
+  .nominal-btn .n-unit{font-size:0.75rem;color:var(--muted);}
+
+  .custom-amount-wrap{
+    display:flex;align-items:center;margin-top:12px;position:relative;
+  }
+  .curr-prefix{
+    position:absolute;left:16px;font-family:'Sora';font-weight:700;color:var(--teal-deep);
+  }
+  .custom-amount-wrap input{
+    width:100%;padding:13px 16px 13px 46px;border-radius:var(--radius-sm);
+    border:1.5px solid var(--teal);font-family:'Sora';font-weight:700;font-size:1.05rem;
+    color:var(--teal-ink);background:#fff;
+  }
+
+  /* Duration Pills */
+  .duration-pills{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  }
+  .duration-pill{
+    padding:11px 12px;border-radius:999px;border:1.5px solid var(--line);
+    background:var(--bg);font-weight:700;font-size:0.86rem;color:var(--muted);
+    transition:all .25s;text-align:center;
+  }
+  .duration-pill:hover{border-color:var(--teal);}
+  .duration-pill.active{
+    border-color:var(--teal);background:var(--teal);color:#fff;
+    box-shadow:0 4px 14px rgba(0,163,157,0.3);
+  }
+  .duration-calc{
+    margin-top:10px;font-size:0.82rem;color:var(--muted);background:#F0FAF9;
+    padding:8px 14px;border-radius:8px;border:1px solid #D6EFEA;
+  }
+
+  /* Form Inputs */
+  .form-input{
+    width:100%;padding:12px 16px;border-radius:var(--radius-sm);
+    border:1.5px solid var(--line);background:#fff;font-family:'Inter',sans-serif;
+    font-size:0.92rem;color:var(--teal-ink);transition:border-color .2s;
+  }
+  .form-input:focus{outline:none;border-color:var(--teal);}
+  .custom-select{cursor:pointer;}
+  .input-group{margin-bottom:12px;}
+  .input-grid-2{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;
+  }
+  .input-sublabel{
+    display:block;font-size:0.78rem;font-weight:600;color:var(--muted);margin-bottom:6px;
+  }
+  .form-textarea{resize:vertical;min-height:64px;}
+
+  /* Submit Action */
+  .btn-submit-donate{
+    width:100%;padding:16px 24px;border-radius:999px;font-size:1.05rem;font-weight:700;
+    background:linear-gradient(135deg,var(--amber),var(--amber-deep));
+    color:var(--teal-ink);box-shadow:0 12px 30px -8px rgba(248,173,60,0.45);
+    transition:transform .25s, box-shadow .25s;
+  }
+  .btn-submit-donate:hover{
+    transform:translateY(-2px);box-shadow:0 16px 36px -8px rgba(248,173,60,0.55);
+  }
+  .form-disclaimer{
+    font-size:0.76rem;line-height:1.5;color:var(--muted);margin-top:14px;text-align:center;
+  }
+
+  /* Trust Seals */
+  .trust-seals{
+    display:flex;justify-content:center;gap:16px;margin-top:22px;padding-top:18px;
+    border-top:1px solid var(--line);flex-wrap:wrap;
+  }
+  .seal-item{
+    font-size:0.75rem;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:4px;
+  }
+
+  /* Success Modal */
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(10,46,44,0.65);
+    backdrop-filter:blur(6px);z-index:100;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+    animation:fadeIn .25s ease;
+  }
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+  .modal-box{
+    background:var(--surface);border-radius:var(--radius-lg);
+    max-width:480px;width:100%;padding:32px 28px;text-align:center;
+    box-shadow:var(--shadow-float);position:relative;
+    animation:modalPop .3s ease;
+  }
+  @keyframes modalPop{from{transform:scale(0.92);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .modal-badge-preview{
+    width:90px;height:90px;border-radius:50%;overflow:hidden;
+    margin:0 auto 16px;border:3px solid var(--amber);
+    box-shadow:0 8px 24px rgba(248,173,60,0.3);
+  }
+  .modal-badge-preview img{width:100%;height:100%;object-fit:cover;}
+  .modal-icon{font-size:1.8rem;margin-bottom:8px;}
+  .modal-header h3{font-size:1.35rem;margin-bottom:6px;color:var(--teal-ink);}
+  .modal-header p{font-size:0.9rem;color:var(--muted);margin-bottom:20px;}
+  .modal-details{
+    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:16px 18px;margin-bottom:22px;display:flex;flex-direction:column;gap:10px;text-align:left;
+  }
+  .modal-row{display:flex;justify-content:space-between;font-size:0.86rem;color:var(--muted);}
+  .modal-row strong{color:var(--teal-ink);}
+  .text-teal{color:var(--teal-deep) !important;}
+  .text-amber{color:var(--amber-deep) !important;}
+  .modal-btn{width:100%;padding:14px;border-radius:999px;font-size:0.95rem;}
+
+  @media(max-width:960px){
+    .membership-container{grid-template-columns:1fr;gap:30px;}
+    .membership-showcase{position:static;}
+    .input-grid-2{grid-template-columns:1fr;}
+    .badge-img-box{height:240px;}
   }
 
   /* ================= DASHBOARD ================= */
@@ -627,55 +808,202 @@
 
 <!-- ============ PAGE 2: MEMBERSHIP JOURNEY ============ -->
 <section class="page" id="journey" data-page-section="journey">
-  <div class="journey-hero">
-    <div class="kicker">Perjalanan Membership</div>
-    <h1>Perjalanan Menjadi Sahabat Anak Yatim</h1>
-    <p>Tiga fase sederhana dari komitmen pertamamu sampai kamu bisa melihat langsung dampak nyata di lapangan.</p>
+  <div class="journey-header">
+    <span class="hero-eyebrow">Program Komitmen Kebaikan</span>
+    <h1>Perjalanan Menjadi <span class="accent">Sahabat Anak Yatim</span></h1>
+    <p>Bergabunglah dalam lingkaran kebaikan rutin bulanan. Bersama, kita pastikan senyuman dan masa depan mereka terus terjaga tanpa henti.</p>
   </div>
 
-  <div class="journey-track">
-    <div class="phase-row">
-      <div class="phase-card">
-        <span class="phase-tag">FASE 1</span>
-        <h3>Komitmen Rutin</h3>
-        <div class="steps">
-          <div class="step"><span class="dot">1</span><span class="step-desc">Pilih nominal donasi bulanan yang sesuai kemampuanmu.</span></div>
-          <div class="step"><span class="dot">2</span><span class="step-desc">Aktifkan auto debit atau QRIS recurring, sekali atur untuk seterusnya.</span></div>
+  <div class="membership-container">
+    <!-- Kolom Kiri: Showcase Badge & Keuntungan -->
+    <div class="membership-showcase">
+      <div class="badge-card">
+        <div class="badge-img-box">
+          <img src="assets/badge-sahabat-yatim.jpg" alt="Official Badge Sahabat Anak Yatim" class="badge-img" />
+          <div class="badge-tag">Official Enamel Pin</div>
+        </div>
+        <div class="badge-card-content">
+          <div class="badge-ribbon">
+            <span>✨ Jadi Sahabat Anak Yatim</span>
+          </div>
+          <p class="badge-sub">Dapatkan <strong>badge Sahabat Anak Yatim</strong> eksklusif dengan berdonasi minimal <strong>Rp100.000/bulan</strong> sebagai simbol kepedulian nyata.</p>
+          <ul class="benefit-list">
+            <li>
+              <span class="check-icon">✓</span>
+              <div><strong>Bantuan Langsung:</strong> Membantu anak-anak yatim lewat program pendidikan, gizi, dan tempat tinggal layak.</div>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <div><strong>Donasi Mudah & Aman:</strong> Donasi secara rutin, praktis, dan dapat diatur atau dihentikan sewaktu-waktu.</div>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <div><strong>Komunitas Peduli:</strong> Menjadi bagian resmi dari keluarga besar Sahabat Anak Yatim Indonesia.</div>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <div><strong>Paket Spesial Donatur:</strong> Mendapatkan kiriman fisik <em>badge Sahabat Anak Yatim</em> eksklusif langsung ke alamatmu.</div>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <div><strong>Transparansi Rutin:</strong> Menerima laporan perkembangan anak asuh dan pengingat bulanan ke email terdaftar.</div>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="phase-node">01</div>
-      <div class="phase-spacer"></div>
     </div>
 
-    <div class="phase-row">
-      <div class="phase-spacer"></div>
-      <div class="phase-node">02</div>
-      <div class="phase-card">
-        <span class="phase-tag">FASE 2</span>
-        <h3>Keuntungan Member</h3>
-        <div class="steps">
-          <div class="step"><span class="dot">3</span><span class="step-desc">Dapatkan kartu member digital sebagai identitas Sahabat Yatim.</span></div>
-          <div class="step"><span class="dot">4</span><span class="step-desc">Welcome kit dikirimkan ke alamatmu sebagai tanda terima kasih.</span></div>
-        </div>
+    <!-- Kolom Kanan: Formulir Donasi & Komitmen -->
+    <div class="membership-form-card">
+      <!-- Tab Switch -->
+      <div class="freq-tabs">
+        <button type="button" class="freq-tab active" data-freq="monthly" id="tabMonthly">
+          <span class="tab-icon">◈</span> Sahabat Anak Yatim (Bulanan)
+        </button>
+        <button type="button" class="freq-tab" data-freq="once" id="tabOnce">
+          Donasi Satu Kali
+        </button>
       </div>
-    </div>
 
-    <div class="phase-row">
-      <div class="phase-card">
-        <span class="phase-tag">FASE 3</span>
-        <h3>Dampak Nyata</h3>
-        <div class="steps">
-          <div class="step"><span class="dot">5</span><span class="step-desc">Terima laporan dampak setiap bulan, lengkap dengan cerita anak yang kamu bantu.</span></div>
-          <div class="step"><span class="dot">6</span><span class="step-desc">Pantau seluruh kontribusimu lewat My Impact Dashboard pribadi.</span></div>
+      <div class="form-title-group">
+        <h2 id="formHeaderTitle">BUAT PERUBAHAN UNTUK SETIAP ANAK SETIAP BULAN</h2>
+        <p class="form-desc" id="badgeNotice">Dapatkan <strong>badge Sahabat Anak Yatim</strong> dengan berdonasi minimal <strong>Rp100.000/bulan</strong></p>
+      </div>
+
+      <!-- 1. Pilih Nominal -->
+      <div class="form-step">
+        <label class="step-label">1. Pilih Nominal Donasi:</label>
+        <div class="nominal-grid">
+          <button type="button" class="nominal-btn" data-val="50000">
+            <span class="n-val">Rp50.000</span>
+            <span class="n-unit" id="unit50">/ bln</span>
+          </button>
+          <button type="button" class="nominal-btn active" data-val="100000">
+            <span class="n-tag">Dapat Badge ⭐</span>
+            <span class="n-val">Rp100.000</span>
+            <span class="n-unit" id="unit100">/ bln</span>
+          </button>
+          <button type="button" class="nominal-btn" data-val="250000">
+            <span class="n-tag">Favorit Donatur</span>
+            <span class="n-val">Rp250.000</span>
+            <span class="n-unit" id="unit250">/ bln</span>
+          </button>
+          <button type="button" class="nominal-btn" data-val="custom">
+            <span class="n-val">Rp500.000+</span>
+            <span class="n-unit">Isi Sendiri</span>
+          </button>
+        </div>
+
+        <!-- Custom Input -->
+        <div class="custom-amount-wrap" id="customAmountWrap" style="display:none;">
+          <span class="curr-prefix">Rp</span>
+          <input type="number" id="customAmountInput" placeholder="Masukkan jumlah donasi (min. 10.000)" value="500000" min="10000" step="10000" />
         </div>
       </div>
-      <div class="phase-node">03</div>
-      <div class="phase-spacer"></div>
+
+      <!-- 2. Pilihan Lama Berdonasi -->
+      <div class="form-step" id="durationStep">
+        <label class="step-label">2. Pilih Lama Berdonasi:</label>
+        <div class="duration-pills">
+          <button type="button" class="duration-pill" data-months="6">
+            6 Bulan
+          </button>
+          <button type="button" class="duration-pill active" data-months="12">
+            12 Bulan (1 Tahun)
+          </button>
+          <button type="button" class="duration-pill" data-months="36">
+            3 Tahun
+          </button>
+        </div>
+        <div class="duration-calc" id="durationCalc">
+          💡 Komitmen: <strong>Rp100.000 / bulan</strong> selama <strong>12 bulan</strong> (Estimasi akumulasi: Rp1.200.000)
+        </div>
+      </div>
+
+      <!-- 3. Metode Pembayaran -->
+      <div class="form-step">
+        <label class="step-label">3. Pilih Metode Pembayaran:</label>
+        <div class="payment-select-wrap">
+          <select id="paymentMethod" class="form-input custom-select">
+            <option value="qris">📱 QRIS / E-Wallet (GoPay, OVO, ShopeePay, DANA)</option>
+            <option value="bca">🏛️ Virtual Account BCA</option>
+            <option value="mandiri">🏛️ Virtual Account Mandiri</option>
+            <option value="bri">🏛️ Virtual Account BRI</option>
+            <option value="bsi">🏛️ Virtual Account BSI (Syariah)</option>
+            <option value="cc">💳 Kartu Kredit / Debit Online (Visa, Mastercard)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 4. Lengkapi Data Donatur & Pengiriman Badge -->
+      <div class="form-step">
+        <label class="step-label">4. Lengkapi Data Anda:</label>
+        <div class="input-group">
+          <input type="text" id="donorName" class="form-input" placeholder="Nama lengkap Anda *" required value="Budi Santoso" />
+        </div>
+        <div class="input-grid-2">
+          <input type="email" id="donorEmail" class="form-input" placeholder="Alamat email Anda *" required value="budi.santoso@email.com" />
+          <input type="tel" id="donorPhone" class="form-input" placeholder="Nomor WhatsApp (08xxxxxxxxxx) *" required value="081234567890" />
+        </div>
+        <div class="input-group" id="addressGroup">
+          <label class="input-sublabel">Alamat Lengkap Pengiriman Badge Sahabat Anak Yatim:</label>
+          <textarea id="donorAddress" class="form-input form-textarea" rows="2" placeholder="Nama Jalan, RT/RW, No. Rumah, Kelurahan, Kecamatan, Kota, Provinsi, Kode Pos *">Jl. Kebon Jeruk No. 12, RT 02/RW 05, Kel. Palmerah, Jakarta Barat 11480</textarea>
+        </div>
+      </div>
+
+      <!-- Submit Action -->
+      <div class="form-action">
+        <button type="button" class="btn-primary btn-submit-donate" id="btnSubmitDonate">
+          Bantu Sekarang — <span id="submitAmountText">Rp100.000 / bln</span>
+        </button>
+        <p class="form-disclaimer">
+          Dengan klik tombol "Bantu Sekarang", Anda mengizinkan Sahabat Anak Yatim menyimpan data donasi untuk transparansi program dan penyampaian laporan secara berkala.
+        </p>
+      </div>
+
+      <!-- Trust & Security Seals -->
+      <div class="trust-seals">
+        <div class="seal-item">🔒 ISO 27001</div>
+        <div class="seal-item">🛡️ AES-256 Bit</div>
+        <div class="seal-item">💳 PCI-DSS</div>
+        <div class="seal-item">✓ 100% Aman & Terpercaya</div>
+      </div>
     </div>
   </div>
 
-  <div class="journey-cta">
-    <button class="btn-primary" data-page="dashboard" style="width:100%;">Lanjut ke My Impact Dashboard</button>
+  <!-- Modal Sukses Donasi & Join -->
+  <div class="modal-backdrop" id="successModal" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-badge-preview">
+        <img src="assets/badge-sahabat-yatim.jpg" alt="Badge Sahabat Anak Yatim" />
+      </div>
+      <div class="modal-header">
+        <div class="modal-icon">🎉</div>
+        <h3>Selamat Datang, Sahabat Kebaikan!</h3>
+        <p>Komitmenmu menjadi pelita baru bagi masa depan anak-anak yatim.</p>
+      </div>
+      <div class="modal-details">
+        <div class="modal-row">
+          <span>Status:</span>
+          <strong class="text-teal">Sahabat Anak Yatim Aktif</strong>
+        </div>
+        <div class="modal-row">
+          <span>Nominal Donasi:</span>
+          <strong id="modalNominal">Rp100.000 / bulan</strong>
+        </div>
+        <div class="modal-row">
+          <span>Durasi Komitmen:</span>
+          <strong id="modalDuration">12 Bulan</strong>
+        </div>
+        <div class="modal-row">
+          <span>Pengiriman Badge:</span>
+          <strong class="text-amber" id="modalBadgeStatus">Sedang Diproses ke Alamatmu 📦</strong>
+        </div>
+      </div>
+      <button type="button" class="btn-primary modal-btn" id="modalGoDashboard">
+        Masuk ke My Impact Dashboard ➔
+      </button>
+    </div>
   </div>
 </section>
 
@@ -823,6 +1151,174 @@
       }
     });
   }
+
+  /* ============ MEMBERSHIP FORM INTERACTIVITY ============ */
+  (function initMembershipForm(){
+    let freq = 'monthly';
+    let nominal = 100000;
+    let months = 12;
+
+    const tabMonthly = document.getElementById('tabMonthly');
+    const tabOnce = document.getElementById('tabOnce');
+    const durationStep = document.getElementById('durationStep');
+    const durationCalc = document.getElementById('durationCalc');
+    const badgeNotice = document.getElementById('badgeNotice');
+    const formHeaderTitle = document.getElementById('formHeaderTitle');
+    const submitAmountText = document.getElementById('submitAmountText');
+    const customAmountWrap = document.getElementById('customAmountWrap');
+    const customAmountInput = document.getElementById('customAmountInput');
+    const nominalButtons = document.querySelectorAll('.nominal-btn');
+    const durationPills = document.querySelectorAll('.duration-pill');
+    const btnSubmitDonate = document.getElementById('btnSubmitDonate');
+    const successModal = document.getElementById('successModal');
+    const modalGoDashboard = document.getElementById('modalGoDashboard');
+
+    function formatRp(val){
+      return 'Rp' + Number(val).toLocaleString('id-ID');
+    }
+
+    function updateSummary(){
+      const formatted = formatRp(nominal);
+      const unit = freq === 'monthly' ? ' / bln' : '';
+      submitAmountText.textContent = formatted + unit;
+
+      if(freq === 'monthly'){
+        const total = nominal * months;
+        let badgeInfo = '';
+        if(nominal >= 100000){
+          badgeInfo = ' • 🎁 <strong>Badge Sahabat Anak Yatim</strong> siap dikirim ke alamatmu!';
+        } else {
+          badgeInfo = ' • 💡 Tambah donasi min. Rp100.000/bln untuk dapat pin badge eksklusif.';
+        }
+        durationCalc.innerHTML = `💡 Komitmen: <strong>${formatted} / bulan</strong> selama <strong>${months} bulan</strong> (Total estimasi: ${formatRp(total)})${badgeInfo}`;
+      }
+    }
+
+    // Tabs
+    if(tabMonthly && tabOnce){
+      tabMonthly.addEventListener('click', () => {
+        freq = 'monthly';
+        tabMonthly.classList.add('active');
+        tabOnce.classList.remove('active');
+        durationStep.style.display = 'block';
+        formHeaderTitle.textContent = 'BUAT PERUBAHAN UNTUK SETIAP ANAK SETIAP BULAN';
+        badgeNotice.innerHTML = 'Dapatkan <strong>badge Sahabat Anak Yatim</strong> dengan berdonasi minimal <strong>Rp100.000/bulan</strong>';
+        document.querySelectorAll('.n-unit').forEach(el => {
+          if(el.id && el.id.startsWith('unit')) el.textContent = '/ bln';
+        });
+        updateSummary();
+      });
+
+      tabOnce.addEventListener('click', () => {
+        freq = 'once';
+        tabOnce.classList.add('active');
+        tabMonthly.classList.remove('active');
+        durationStep.style.display = 'none';
+        formHeaderTitle.textContent = 'BERIKAN DUKUNGAN TERBAIK UNTUK ANAK YATIM';
+        badgeNotice.innerHTML = '💡 <em>Tip: Pilih program bulanan minimal Rp100.000/bln untuk mendapatkan pin badge eksklusif.</em>';
+        document.querySelectorAll('.n-unit').forEach(el => {
+          if(el.id && el.id.startsWith('unit')) el.textContent = 'Sekali';
+        });
+        updateSummary();
+      });
+    }
+
+    // Nominal Buttons
+    nominalButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        nominalButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const val = btn.dataset.val;
+        if(val === 'custom'){
+          customAmountWrap.style.display = 'flex';
+          customAmountInput.focus();
+          nominal = parseInt(customAmountInput.value) || 500000;
+        } else {
+          customAmountWrap.style.display = 'none';
+          nominal = parseInt(val);
+        }
+        updateSummary();
+      });
+    });
+
+    if(customAmountInput){
+      customAmountInput.addEventListener('input', () => {
+        nominal = parseInt(customAmountInput.value) || 0;
+        updateSummary();
+      });
+    }
+
+    // Duration Pills
+    durationPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        durationPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        months = parseInt(pill.dataset.months);
+        updateSummary();
+      });
+    });
+
+    // Submit Donation
+    if(btnSubmitDonate){
+      btnSubmitDonate.addEventListener('click', () => {
+        const nameInput = document.getElementById('donorName');
+        const emailInput = document.getElementById('donorEmail');
+        const phoneInput = document.getElementById('donorPhone');
+
+        const donorName = nameInput ? (nameInput.value.trim() || 'Sahabat Kebaikan') : 'Sahabat Kebaikan';
+        const modalNominal = document.getElementById('modalNominal');
+        const modalDuration = document.getElementById('modalDuration');
+        const modalBadgeStatus = document.getElementById('modalBadgeStatus');
+
+        if(modalNominal) modalNominal.textContent = formatRp(nominal) + (freq === 'monthly' ? ' / bulan' : ' (Satu Kali)');
+        if(modalDuration) modalDuration.textContent = freq === 'monthly' ? months + ' Bulan' : 'Sekali Bayar';
+        if(modalBadgeStatus){
+          if(nominal >= 100000 && freq === 'monthly'){
+            modalBadgeStatus.textContent = 'Sedang Diproses ke Alamatmu 📦';
+            modalBadgeStatus.className = 'text-amber';
+          } else {
+            modalBadgeStatus.textContent = 'Terima kasih atas kebaikan hatimu 💖';
+            modalBadgeStatus.className = 'text-teal';
+          }
+        }
+
+        // Show Modal
+        if(successModal) successModal.style.display = 'flex';
+      });
+    }
+
+    // Modal Action
+    if(modalGoDashboard){
+      modalGoDashboard.addEventListener('click', () => {
+        if(successModal) successModal.style.display = 'none';
+        const nameInput = document.getElementById('donorName');
+        const donorName = nameInput ? (nameInput.value.trim() || 'Budi Santoso') : 'Budi Santoso';
+        
+        // Update Dashboard Info
+        const welcomeEl = document.querySelector('.dash-topbar h2');
+        if(welcomeEl) welcomeEl.textContent = 'Selamat datang, ' + donorName;
+        const profileName = document.querySelector('.dash-profile div div:first-child');
+        if(profileName) profileName.textContent = donorName;
+        const avatarEl = document.querySelector('.avatar');
+        if(avatarEl){
+          const initials = donorName.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+          avatarEl.textContent = initials || 'BS';
+        }
+
+        goTo('dashboard');
+      });
+    }
+
+    // Close modal on backdrop click
+    if(successModal){
+      successModal.addEventListener('click', (e) => {
+        if(e.target === successModal) successModal.style.display = 'none';
+      });
+    }
+
+    // Init display
+    updateSummary();
+  })();
 </script>
 
 </body>
