@@ -699,6 +699,51 @@
   .impact-photo .cap h4{font-size:0.95rem;}
   .impact-photo .cap p{color:var(--muted);font-size:0.82rem;margin-top:4px;}
 
+  /* Dashboard Section Tabs */
+  .dash-section{display:none;}
+  .dash-section.active{display:block;animation:fadeIn .3s ease;}
+  .dash-nav a{cursor:pointer;}
+
+  /* Progress Bars */
+  .progress-row{margin-bottom:14px;}
+  .progress-label{display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:6px;color:var(--teal-ink);font-weight:600;}
+  .progress-track{height:10px;background:var(--line);border-radius:999px;overflow:hidden;}
+  .progress-fill{height:100%;border-radius:999px;transition:width .6s ease;}
+
+  /* Mini Stat Cards */
+  .mini-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+  .mini-stat{
+    background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#fff;
+    border-radius:var(--radius-md);padding:16px 18px;
+  }
+  .mini-stat.amber{background:linear-gradient(135deg,var(--amber),var(--amber-deep));}
+  .mini-stat.slate{background:linear-gradient(135deg,#4B6584,#2C3E50);}
+  .mini-stat .ms-icon{font-size:1.6rem;margin-bottom:8px;}
+  .mini-stat .ms-val{font-family:'Sora';font-weight:800;font-size:1.3rem;}
+  .mini-stat .ms-lbl{font-size:0.75rem;opacity:0.88;margin-top:4px;}
+
+  /* Section header badge */
+  .section-badge{
+    display:inline-flex;align-items:center;gap:8px;background:var(--bg);
+    border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+    font-size:0.8rem;font-weight:700;color:var(--teal-deep);margin-bottom:18px;
+  }
+
+  /* Achievement cards */
+  .achieve-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .achieve-card{
+    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);
+    padding:14px 16px;display:flex;align-items:flex-start;gap:12px;
+  }
+  .achieve-icon{font-size:1.5rem;flex-shrink:0;}
+  .achieve-body .achieve-title{font-weight:700;font-size:0.88rem;margin-bottom:4px;}
+  .achieve-body .achieve-desc{font-size:0.78rem;color:var(--muted);line-height:1.4;}
+
+  @media(max-width:780px){
+    .mini-stat-grid{grid-template-columns:1fr 1fr;}
+    .achieve-grid{grid-template-columns:1fr;}
+  }
+
   @media(max-width:1000px){
     .hero{grid-template-columns:1fr;}
     .hero-visual{order:-1;height:300px;}
@@ -1091,12 +1136,12 @@
     <div class="dash-sidebar">
       <div class="brand"><span class="brand-mark">◈</span> Sahabat Yatim</div>
       <div class="dash-nav">
-        <a class="active">📊 My Impact Dashboard</a>
-        <a>💛 Fundraising</a>
-        <a>🎯 Campaign</a>
-        <a>📈 Analytics</a>
-        <a>👥 Community</a>
-        <a>⚙️ Pengaturan</a>
+        <a class="active" data-section="summary" onclick="switchDashSection('summary',this)">📊 My Impact Dashboard</a>
+        <a data-section="donasi" onclick="switchDashSection('donasi',this)">💰 My Donation Summary</a>
+        <a data-section="pendidikan" onclick="switchDashSection('pendidikan',this)">🎓 Impact Bidang Pendidikan</a>
+        <a data-section="kesehatan" onclick="switchDashSection('kesehatan',this)">🏥 Impact Bidang Kesehatan</a>
+        <a data-section="tempat" onclick="switchDashSection('tempat',this)">🏡 Impact Tempat Tinggal</a>
+        <a data-section="pengaturan" onclick="switchDashSection('pengaturan',this)">⚙️ Pengaturan</a>
       </div>
     </div>
     <div class="dash-main">
@@ -1121,54 +1166,408 @@
         <div class="kpi-card"><div class="lbl">Dukungan Bulan Ini</div><div class="val">Pendidikan Anak Yatim</div></div>
       </div>
 
-      <div class="dash-grid">
-        <div>
-          <div class="panel">
-            <h3>Kontribusi Bulanan</h3>
-            <canvas id="barChart" height="150"></canvas>
-          </div>
-          <div class="panel">
-            <h3>Riwayat Donasi</h3>
-            <table>
-              <thead><tr><th>Program</th><th>Lokasi</th><th>Tanggal</th><th>Jumlah</th></tr></thead>
-              <tbody>
-                <tr><td><div class="name-cell"><div class="mini-avatar">PD</div>Pendidikan</div></td><td>Aceh</td><td>05/09/2026</td><td>Rp100.000</td></tr>
-                <tr><td><div class="name-cell"><div class="mini-avatar">KS</div>Kesehatan</div></td><td>NTB</td><td>05/08/2026</td><td>Rp100.000</td></tr>
-                <tr><td><div class="name-cell"><div class="mini-avatar">PD</div>Pendidikan</div></td><td>Jakarta</td><td>05/07/2026</td><td>Rp100.000</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div>
-          <div class="panel">
-            <h3>Jenis Donasi</h3>
-            <canvas id="donutChart" height="180"></canvas>
-            <div class="donut-legend">
-              <div class="row"><span><span class="swatch" style="background:#00A39D"></span>Pendidikan</span><span>45%</span></div>
-              <div class="row"><span><span class="swatch" style="background:#F8AD3C"></span>Kesehatan</span><span>35%</span></div>
-              <div class="row"><span><span class="swatch" style="background:#DCEEEC"></span>Lainnya</span><span>20%</span></div>
+      <!-- ===== SECTION: MY IMPACT DASHBOARD (Overview) ===== -->
+      <div class="dash-section active" id="section-summary">
+        <div class="dash-grid">
+          <div>
+            <div class="panel">
+              <h3>Kontribusi Bulanan</h3>
+              <canvas id="barChart" height="150"></canvas>
+            </div>
+            <div class="panel">
+              <h3>Riwayat Donasi</h3>
+              <table>
+                <thead><tr><th>Program</th><th>Lokasi</th><th>Tanggal</th><th>Jumlah</th></tr></thead>
+                <tbody>
+                  <tr><td><div class="name-cell"><div class="mini-avatar">PD</div>Pendidikan</div></td><td>Aceh</td><td>05/09/2026</td><td>Rp100.000</td></tr>
+                  <tr><td><div class="name-cell"><div class="mini-avatar">KS</div>Kesehatan</div></td><td>NTB</td><td>05/08/2026</td><td>Rp100.000</td></tr>
+                  <tr><td><div class="name-cell"><div class="mini-avatar" style="background:var(--amber-deep)">TT</div>Tempat Tinggal</div></td><td>Jakarta</td><td>05/07/2026</td><td>Rp100.000</td></tr>
+                  <tr><td><div class="name-cell"><div class="mini-avatar">PD</div>Pendidikan</div></td><td>Aceh</td><td>05/06/2026</td><td>Rp100.000</td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
-          <div class="panel impact-photo" style="padding:0;">
-            <div style="position:relative;">
-              <span class="badge">32 hari lagi</span>
-              <svg viewBox="0 0 300 160" style="width:100%;display:block;">
-                <rect width="300" height="160" fill="#00A39D"/>
-                <circle cx="90" cy="90" r="30" fill="#FFD9A6"/>
-                <rect x="70" y="118" width="40" height="42" rx="10" fill="#fff"/>
-                <circle cx="180" cy="80" r="24" fill="#F4C08A"/>
-                <rect x="164" y="102" width="32" height="38" rx="8" fill="#fff" opacity="0.9"/>
-                <circle cx="230" cy="95" r="20" fill="#FFD9A6"/>
-                <rect x="216" y="113" width="28" height="32" rx="8" fill="#fff" opacity="0.85"/>
-              </svg>
+          <div>
+            <div class="panel">
+              <h3>Alokasi Donasi per Bidang</h3>
+              <canvas id="donutChart" height="180"></canvas>
+              <div class="donut-legend">
+                <div class="row"><span><span class="swatch" style="background:#00A39D"></span>Pendidikan</span><span>45%</span></div>
+                <div class="row"><span><span class="swatch" style="background:#F8AD3C"></span>Kesehatan</span><span>35%</span></div>
+                <div class="row"><span><span class="swatch" style="background:#4B6584"></span>Tempat Tinggal</span><span>20%</span></div>
+              </div>
             </div>
-            <div class="cap">
-              <h4>Penerima Manfaat Program Pendidikan</h4>
-              <p>Sekolah Menengah di Aceh, Indonesia</p>
+            <div class="panel">
+              <h3>Capaian Anak Terbantu</h3>
+              <div class="progress-row">
+                <div class="progress-label"><span>🎓 Pendidikan</span><span>540 anak</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:81%;background:#00A39D"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-label"><span>🏥 Kesehatan</span><span>420 anak</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:63%;background:#F8AD3C"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-label"><span>🏡 Tempat Tinggal</span><span>240 anak</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:36%;background:#4B6584"></div></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- ===== SECTION: MY DONATION SUMMARY ===== -->
+      <div class="dash-section" id="section-donasi">
+        <div class="section-badge">💰 My Donation Summary</div>
+        <div class="mini-stat-grid">
+          <div class="mini-stat">
+            <div class="ms-icon">💳</div>
+            <div class="ms-val">Rp1.200.000</div>
+            <div class="ms-lbl">Total Donasi (12 Bulan)</div>
+          </div>
+          <div class="mini-stat amber">
+            <div class="ms-icon">🔥</div>
+            <div class="ms-val">12 Bulan</div>
+            <div class="ms-lbl">Streak Berturut-turut</div>
+          </div>
+          <div class="mini-stat slate">
+            <div class="ms-icon">📅</div>
+            <div class="ms-val">Rp100.000</div>
+            <div class="ms-lbl">Rata-rata / Bulan</div>
+          </div>
+        </div>
+        <div class="dash-grid">
+          <div>
+            <div class="panel">
+              <h3>Tren Donasi 12 Bulan Terakhir</h3>
+              <canvas id="lineDonasiChart" height="150"></canvas>
+            </div>
+            <div class="panel">
+              <h3>Riwayat Lengkap Donasi</h3>
+              <table>
+                <thead><tr><th>Bulan</th><th>Bidang</th><th>Metode</th><th>Jumlah</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Sep 2026</td><td>Pendidikan</td><td>QRIS</td><td>Rp100.000</td><td><span style="color:#00A39D;font-weight:700;">✓ Sukses</span></td></tr>
+                  <tr><td>Agu 2026</td><td>Kesehatan</td><td>VA BCA</td><td>Rp100.000</td><td><span style="color:#00A39D;font-weight:700;">✓ Sukses</span></td></tr>
+                  <tr><td>Jul 2026</td><td>Tempat Tinggal</td><td>QRIS</td><td>Rp100.000</td><td><span style="color:#00A39D;font-weight:700;">✓ Sukses</span></td></tr>
+                  <tr><td>Jun 2026</td><td>Pendidikan</td><td>QRIS</td><td>Rp100.000</td><td><span style="color:#00A39D;font-weight:700;">✓ Sukses</span></td></tr>
+                  <tr><td>Mei 2026</td><td>Kesehatan</td><td>VA BRI</td><td>Rp100.000</td><td><span style="color:#00A39D;font-weight:700;">✓ Sukses</span></td></tr>
+                  <tr><td>Apr 2026</td><td>Pendidikan</td><td>QRIS</td><td>Rp100.000</td><td><span style="color:#00A39D;font-weight:700;">✓ Sukses</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="panel">
+              <h3>Distribusi per Metode Pembayaran</h3>
+              <canvas id="metodePieChart" height="180"></canvas>
+              <div class="donut-legend">
+                <div class="row"><span><span class="swatch" style="background:#00A39D"></span>QRIS / E-Wallet</span><span>58%</span></div>
+                <div class="row"><span><span class="swatch" style="background:#F8AD3C"></span>Virtual Account</span><span>33%</span></div>
+                <div class="row"><span><span class="swatch" style="background:#4B6584"></span>Kartu Kredit</span><span>9%</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Status Membership</h3>
+              <div style="text-align:center;padding:8px 0;">
+                <div style="font-size:2.5rem;margin-bottom:8px;">🏅</div>
+                <div style="font-family:'Sora';font-weight:800;font-size:1.2rem;color:var(--teal-deep);">Sahabat Peduli</div>
+                <div style="font-size:0.8rem;color:var(--muted);margin-top:6px;">Bergabung sejak Oktober 2025</div>
+                <div style="margin-top:14px;">
+                  <div class="progress-label"><span>Menuju level Sahabat Setia</span><span>75%</span></div>
+                  <div class="progress-track"><div class="progress-fill" style="width:75%;background:var(--amber)"></div></div>
+                </div>
+                <div style="font-size:0.76rem;color:var(--muted);margin-top:8px;">Perlu 3 bulan lagi untuk naik level</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION: IMPACT PENDIDIKAN ===== -->
+      <div class="dash-section" id="section-pendidikan">
+        <div class="section-badge">🎓 Impact Bidang Pendidikan</div>
+        <div class="mini-stat-grid">
+          <div class="mini-stat">
+            <div class="ms-icon">👦</div>
+            <div class="ms-val">540</div>
+            <div class="ms-lbl">Anak Terbantu</div>
+          </div>
+          <div class="mini-stat amber">
+            <div class="ms-icon">📚</div>
+            <div class="ms-val">18 Sekolah</div>
+            <div class="ms-lbl">Lokasi Program</div>
+          </div>
+          <div class="mini-stat slate">
+            <div class="ms-icon">🎒</div>
+            <div class="ms-val">Rp5,4 Jt</div>
+            <div class="ms-lbl">Dana Tersalurkan</div>
+          </div>
+        </div>
+        <div class="dash-grid">
+          <div>
+            <div class="panel">
+              <h3>Jumlah Anak Terbantu per Bulan</h3>
+              <canvas id="pendBarChart" height="150"></canvas>
+            </div>
+            <div class="panel">
+              <h3>Sebaran Penerima Manfaat per Provinsi</h3>
+              <table>
+                <thead><tr><th>Provinsi</th><th>Sekolah</th><th>Anak Terbantu</th><th>Dana</th></tr></thead>
+                <tbody>
+                  <tr><td>Aceh</td><td>5 Sekolah</td><td>180 anak</td><td>Rp1.800.000</td></tr>
+                  <tr><td>NTB</td><td>4 Sekolah</td><td>145 anak</td><td>Rp1.450.000</td></tr>
+                  <tr><td>DKI Jakarta</td><td>3 Sekolah</td><td>112 anak</td><td>Rp1.120.000</td></tr>
+                  <tr><td>Jawa Timur</td><td>3 Sekolah</td><td>76 anak</td><td>Rp760.000</td></tr>
+                  <tr><td>Sulawesi Selatan</td><td>3 Sekolah</td><td>27 anak</td><td>Rp270.000</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="panel">
+              <h3>Distribusi Jenjang Pendidikan</h3>
+              <canvas id="jenjangChart" height="180"></canvas>
+              <div class="donut-legend">
+                <div class="row"><span><span class="swatch" style="background:#00A39D"></span>SD</span><span>46%</span></div>
+                <div class="row"><span><span class="swatch" style="background:#F8AD3C"></span>SMP</span><span>34%</span></div>
+                <div class="row"><span><span class="swatch" style="background:#4B6584"></span>SMA</span><span>20%</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Pencapaian Program</h3>
+              <div class="achieve-grid">
+                <div class="achieve-card">
+                  <div class="achieve-icon">📖</div>
+                  <div class="achieve-body">
+                    <div class="achieve-title">2.160 Buku</div>
+                    <div class="achieve-desc">Buku pelajaran terdistribusi ke 18 sekolah mitra</div>
+                  </div>
+                </div>
+                <div class="achieve-card">
+                  <div class="achieve-icon">👔</div>
+                  <div class="achieve-body">
+                    <div class="achieve-title">540 Seragam</div>
+                    <div class="achieve-desc">Set seragam sekolah lengkap per anak penerima manfaat</div>
+                  </div>
+                </div>
+                <div class="achieve-card">
+                  <div class="achieve-icon">🖊️</div>
+                  <div class="achieve-body">
+                    <div class="achieve-title">540 Kit ATK</div>
+                    <div class="achieve-desc">Alat tulis lengkap untuk mendukung kegiatan belajar</div>
+                  </div>
+                </div>
+                <div class="achieve-card">
+                  <div class="achieve-icon">🏫</div>
+                  <div class="achieve-body">
+                    <div class="achieve-title">18 Kelas</div>
+                    <div class="achieve-desc">Ruang belajar yang layak & difasilitasi di 5 provinsi</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION: IMPACT KESEHATAN ===== -->
+      <div class="dash-section" id="section-kesehatan">
+        <div class="section-badge">🏥 Impact Bidang Kesehatan</div>
+        <div class="mini-stat-grid">
+          <div class="mini-stat">
+            <div class="ms-icon">💊</div>
+            <div class="ms-val">420</div>
+            <div class="ms-lbl">Anak Terlayani</div>
+          </div>
+          <div class="mini-stat amber">
+            <div class="ms-icon">🩺</div>
+            <div class="ms-val">1.260</div>
+            <div class="ms-lbl">Pemeriksaan Rutin</div>
+          </div>
+          <div class="mini-stat slate">
+            <div class="ms-icon">🥗</div>
+            <div class="ms-val">5.040</div>
+            <div class="ms-lbl">Paket Gizi Tersalurkan</div>
+          </div>
+        </div>
+        <div class="dash-grid">
+          <div>
+            <div class="panel">
+              <h3>Pemeriksaan Kesehatan Bulanan</h3>
+              <canvas id="kesBarChart" height="150"></canvas>
+            </div>
+            <div class="panel">
+              <h3>Riwayat Distribusi Gizi</h3>
+              <table>
+                <thead><tr><th>Bulan</th><th>Lokasi</th><th>Paket Gizi</th><th>Anak</th></tr></thead>
+                <tbody>
+                  <tr><td>Sep 2026</td><td>NTB</td><td>420 paket</td><td>420 anak</td></tr>
+                  <tr><td>Agu 2026</td><td>Aceh</td><td>420 paket</td><td>420 anak</td></tr>
+                  <tr><td>Jul 2026</td><td>Jawa Timur</td><td>420 paket</td><td>420 anak</td></tr>
+                  <tr><td>Jun 2026</td><td>NTB</td><td>420 paket</td><td>420 anak</td></tr>
+                  <tr><td>Mei 2026</td><td>Sulawesi</td><td>420 paket</td><td>420 anak</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="panel">
+              <h3>Status Gizi Anak Binaan</h3>
+              <canvas id="giziChart" height="180"></canvas>
+              <div class="donut-legend">
+                <div class="row"><span><span class="swatch" style="background:#00A39D"></span>Gizi Baik</span><span>62%</span></div>
+                <div class="row"><span><span class="swatch" style="background:#F8AD3C"></span>Gizi Kurang</span><span>28%</span></div>
+                <div class="row"><span><span class="swatch" style="background:#E74C3C"></span>Gizi Buruk</span><span>10%</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Program Kesehatan Aktif</h3>
+              <div class="progress-row">
+                <div class="progress-label"><span>Imunisasi Lengkap</span><span>88%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:88%;background:#00A39D"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-label"><span>Pemeriksaan Rutin</span><span>76%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:76%;background:#F8AD3C"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-label"><span>Konseling Gizi</span><span>64%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:64%;background:#4B6584"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-label"><span>Distribusi Suplemen</span><span>95%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:95%;background:#00A39D"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION: IMPACT TEMPAT TINGGAL ===== -->
+      <div class="dash-section" id="section-tempat">
+        <div class="section-badge">🏡 Impact Bidang Tempat Tinggal</div>
+        <div class="mini-stat-grid">
+          <div class="mini-stat">
+            <div class="ms-icon">🏠</div>
+            <div class="ms-val">12 Panti</div>
+            <div class="ms-lbl">Panti Direnovasi</div>
+          </div>
+          <div class="mini-stat amber">
+            <div class="ms-icon">🛏️</div>
+            <div class="ms-val">240</div>
+            <div class="ms-lbl">Anak Menempati</div>
+          </div>
+          <div class="mini-stat slate">
+            <div class="ms-icon">🔨</div>
+            <div class="ms-val">Rp2,4 Jt</div>
+            <div class="ms-lbl">Dana Renovasi</div>
+          </div>
+        </div>
+        <div class="dash-grid">
+          <div>
+            <div class="panel">
+              <h3>Progres Renovasi Panti per Bulan</h3>
+              <canvas id="tempatBarChart" height="150"></canvas>
+            </div>
+            <div class="panel">
+              <h3>Daftar Panti Mitra</h3>
+              <table>
+                <thead><tr><th>Nama Panti</th><th>Kota</th><th>Anak</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Panti Al-Ikhlas</td><td>Aceh</td><td>38 anak</td><td><span style="color:#00A39D;font-weight:700;">✓ Selesai</span></td></tr>
+                  <tr><td>Panti Baitul Aman</td><td>NTB</td><td>45 anak</td><td><span style="color:#00A39D;font-weight:700;">✓ Selesai</span></td></tr>
+                  <tr><td>Panti Nurul Hidayah</td><td>Surabaya</td><td>32 anak</td><td><span style="color:#F8AD3C;font-weight:700;">⏳ Dalam Proses</span></td></tr>
+                  <tr><td>Panti Kasih Ibu</td><td>Makassar</td><td>28 anak</td><td><span style="color:#F8AD3C;font-weight:700;">⏳ Dalam Proses</span></td></tr>
+                  <tr><td>Rumah Singgah Harapan</td><td>Jakarta</td><td>51 anak</td><td><span style="color:var(--muted);font-weight:700;">📋 Terjadwal</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="panel">
+              <h3>Status Renovasi Panti</h3>
+              <canvas id="renovasiChart" height="180"></canvas>
+              <div class="donut-legend">
+                <div class="row"><span><span class="swatch" style="background:#00A39D"></span>Selesai</span><span>5 panti</span></div>
+                <div class="row"><span><span class="swatch" style="background:#F8AD3C"></span>Dalam Proses</span><span>4 panti</span></div>
+                <div class="row"><span><span class="swatch" style="background:#DCEEEC"></span>Terjadwal</span><span>3 panti</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Kelayakan Fasilitas</h3>
+              <div class="progress-row">
+                <div class="progress-label"><span>Kamar Tidur</span><span>90%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:90%;background:#00A39D"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-label"><span>Ruang Belajar</span><span>75%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:75%;background:#00A39D"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-label"><span>Dapur & Sanitasi</span><span>82%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:82%;background:#F8AD3C"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-label"><span>Area Bermain</span><span>55%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:55%;background:#4B6584"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION: PENGATURAN ===== -->
+      <div class="dash-section" id="section-pengaturan">
+        <div class="section-badge">⚙️ Pengaturan Akun</div>
+        <div class="dash-grid">
+          <div>
+            <div class="panel">
+              <h3>Informasi Profil</h3>
+              <table>
+                <tbody>
+                  <tr><td style="color:var(--muted);width:40%">Nama Lengkap</td><td><strong>Budi Santoso</strong></td></tr>
+                  <tr><td style="color:var(--muted)">Email</td><td><strong>budi.santoso@email.com</strong></td></tr>
+                  <tr><td style="color:var(--muted)">WhatsApp</td><td><strong>081234567890</strong></td></tr>
+                  <tr><td style="color:var(--muted)">Bergabung</td><td><strong>Oktober 2025</strong></td></tr>
+                  <tr><td style="color:var(--muted)">Status</td><td><strong style="color:var(--teal-deep)">Sahabat Peduli Aktif</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="panel">
+              <h3>Preferensi Notifikasi</h3>
+              <table>
+                <tbody>
+                  <tr><td style="color:var(--muted)">Laporan Bulanan</td><td><strong style="color:#00A39D;">✓ Aktif</strong></td></tr>
+                  <tr><td style="color:var(--muted)">Pengingat Donasi</td><td><strong style="color:#00A39D;">✓ Aktif</strong></td></tr>
+                  <tr><td style="color:var(--muted)">Update Program</td><td><strong style="color:#00A39D;">✓ Aktif</strong></td></tr>
+                  <tr><td style="color:var(--muted)">Newsletter</td><td><strong style="color:var(--muted);">✗ Nonaktif</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="panel" style="text-align:center;">
+              <div style="font-size:3rem;margin-bottom:12px;">🏅</div>
+              <div style="font-family:'Sora';font-weight:800;font-size:1.1rem;color:var(--teal-deep);">Sahabat Peduli</div>
+              <div style="font-size:0.8rem;color:var(--muted);margin-top:6px;margin-bottom:16px;">Level membership saat ini</div>
+              <div class="progress-label"><span style="font-size:0.8rem">Progress ke Sahabat Setia</span><span style="font-size:0.8rem">75%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:75%;background:var(--amber)"></div></div>
+              <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;">3 bulan lagi untuk naik level</div>
+            </div>
+            <div class="panel">
+              <h3>Metode Pembayaran Aktif</h3>
+              <table>
+                <tbody>
+                  <tr><td>📱 QRIS Utama</td><td><strong style="color:#00A39D;">Aktif</strong></td></tr>
+                  <tr><td>🏛️ VA BCA</td><td><strong style="color:#00A39D;">Aktif</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1191,43 +1590,130 @@
   navButtons.forEach(btn => btn.addEventListener('click', () => goTo(btn.dataset.page)));
 
   function initCharts(){
-    const barCtx = document.getElementById('barChart');
-    new Chart(barCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Apr','Mei','Jun','Jul','Agu','Sep'],
-        datasets: [{
-          data: [100,100,100,100,100,100],
-          backgroundColor: '#00A39D',
-          borderRadius: 8,
-          maxBarThickness: 34
-        }]
-      },
-      options: {
-        plugins:{legend:{display:false}},
-        scales:{
-          y:{ grid:{color:'#EAF3F2'}, ticks:{callback:v=>'Rp'+v+'rb'} },
-          x:{ grid:{display:false} }
-        }
+    const donutOpts = { cutout:'68%', plugins:{legend:{display:false}} };
+    const barBaseOpts = (unit) => ({
+      plugins:{legend:{display:false}},
+      scales:{
+        y:{ grid:{color:'#EAF3F2'}, ticks:{callback:v=>unit+v} },
+        x:{ grid:{display:false} }
       }
     });
 
-    const donutCtx = document.getElementById('donutChart');
-    new Chart(donutCtx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Pendidikan','Kesehatan','Lainnya'],
-        datasets: [{
-          data: [45,35,20],
-          backgroundColor: ['#00A39D','#F8AD3C','#DCEEEC'],
-          borderWidth: 0
+    // ===== OVERVIEW CHARTS =====
+    new Chart(document.getElementById('barChart'),{
+      type:'bar',
+      data:{
+        labels:['Okt','Nov','Des','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep'],
+        datasets:[{data:[100,100,100,100,100,100,100,100,100,100,100,100],backgroundColor:'#00A39D',borderRadius:8,maxBarThickness:30}]
+      },
+      options:barBaseOpts('Rp')
+    });
+    new Chart(document.getElementById('donutChart'),{
+      type:'doughnut',
+      data:{
+        labels:['Pendidikan','Kesehatan','Tempat Tinggal'],
+        datasets:[{data:[45,35,20],backgroundColor:['#00A39D','#F8AD3C','#4B6584'],borderWidth:0}]
+      },
+      options:donutOpts
+    });
+
+    // ===== DONASI SUMMARY CHARTS =====
+    new Chart(document.getElementById('lineDonasiChart'),{
+      type:'line',
+      data:{
+        labels:['Okt','Nov','Des','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep'],
+        datasets:[{
+          label:'Donasi (Rp)',
+          data:[100,100,100,100,100,100,100,100,100,100,100,100],
+          borderColor:'#00A39D',backgroundColor:'rgba(0,163,157,0.12)',
+          tension:0.4,fill:true,pointRadius:5,pointBackgroundColor:'#00A39D'
         }]
       },
-      options: {
-        cutout:'68%',
-        plugins:{legend:{display:false}}
-      }
+      options:{ plugins:{legend:{display:false}}, scales:{ y:{grid:{color:'#EAF3F2'},ticks:{callback:v=>'Rp'+v+'rb'}}, x:{grid:{display:false}} } }
     });
+    new Chart(document.getElementById('metodePieChart'),{
+      type:'doughnut',
+      data:{
+        labels:['QRIS/E-Wallet','Virtual Account','Kartu Kredit'],
+        datasets:[{data:[58,33,9],backgroundColor:['#00A39D','#F8AD3C','#4B6584'],borderWidth:0}]
+      },
+      options:donutOpts
+    });
+
+    // ===== PENDIDIKAN CHARTS =====
+    new Chart(document.getElementById('pendBarChart'),{
+      type:'bar',
+      data:{
+        labels:['Okt','Nov','Des','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep'],
+        datasets:[{
+          label:'Anak Terbantu',
+          data:[38,42,45,47,49,51,52,54,53,55,54,540/12],
+          backgroundColor:'#00A39D',borderRadius:8,maxBarThickness:30
+        }]
+      },
+      options:barBaseOpts('')
+    });
+    new Chart(document.getElementById('jenjangChart'),{
+      type:'doughnut',
+      data:{
+        labels:['SD','SMP','SMA'],
+        datasets:[{data:[46,34,20],backgroundColor:['#00A39D','#F8AD3C','#4B6584'],borderWidth:0}]
+      },
+      options:donutOpts
+    });
+
+    // ===== KESEHATAN CHARTS =====
+    new Chart(document.getElementById('kesBarChart'),{
+      type:'bar',
+      data:{
+        labels:['Okt','Nov','Des','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep'],
+        datasets:[{
+          label:'Pemeriksaan',
+          data:[92,98,104,108,106,112,110,114,108,116,112,120],
+          backgroundColor:'#F8AD3C',borderRadius:8,maxBarThickness:30
+        }]
+      },
+      options:barBaseOpts('')
+    });
+    new Chart(document.getElementById('giziChart'),{
+      type:'doughnut',
+      data:{
+        labels:['Gizi Baik','Gizi Kurang','Gizi Buruk'],
+        datasets:[{data:[62,28,10],backgroundColor:['#00A39D','#F8AD3C','#E74C3C'],borderWidth:0}]
+      },
+      options:donutOpts
+    });
+
+    // ===== TEMPAT TINGGAL CHARTS =====
+    new Chart(document.getElementById('tempatBarChart'),{
+      type:'bar',
+      data:{
+        labels:['Okt','Nov','Des','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep'],
+        datasets:[{
+          label:'Unit Direnovasi',
+          data:[0,1,1,1,2,1,1,2,1,1,1,0],
+          backgroundColor:'#4B6584',borderRadius:8,maxBarThickness:30
+        }]
+      },
+      options:barBaseOpts('')
+    });
+    new Chart(document.getElementById('renovasiChart'),{
+      type:'doughnut',
+      data:{
+        labels:['Selesai','Dalam Proses','Terjadwal'],
+        datasets:[{data:[5,4,3],backgroundColor:['#00A39D','#F8AD3C','#DCEEEC'],borderWidth:0}]
+      },
+      options:donutOpts
+    });
+  }
+
+  // Dashboard Section Switcher
+  function switchDashSection(sectionId, clickedEl){
+    document.querySelectorAll('.dash-section').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('section-' + sectionId);
+    if(target) target.classList.add('active');
+    document.querySelectorAll('.dash-nav a').forEach(a => a.classList.remove('active'));
+    if(clickedEl) clickedEl.classList.add('active');
   }
 
   /* ============ MEMBERSHIP FORM INTERACTIVITY ============ */
