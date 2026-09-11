@@ -497,6 +497,49 @@
     color:var(--teal-ink);background:#fff;
   }
 
+  /* Track Selector */
+  .track-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  }
+  .track-btn{
+    position:relative;background:var(--bg);border:1.5px solid var(--line);
+    border-radius:var(--radius-md);padding:14px 12px;text-align:left;
+    transition:all .25s ease;display:flex;flex-direction:column;gap:6px;
+    cursor:pointer;
+  }
+  .track-btn:hover{
+    border-color:var(--teal);transform:translateY(-2px);
+    box-shadow:0 6px 16px rgba(0,163,157,0.12);
+  }
+  .track-btn.active{
+    border-color:var(--teal);background:#EBF7F6;
+    box-shadow:0 0 0 1.5px var(--teal), 0 8px 20px -6px rgba(0,163,157,0.22);
+  }
+  .track-btn-top{
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .track-icon{font-size:1.35rem;line-height:1;}
+  .track-check{
+    width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:0.7rem;
+    font-weight:700;color:transparent;transition:all .2s;
+  }
+  .track-btn.active .track-check{
+    background:var(--teal);border-color:var(--teal);color:#fff;
+  }
+  .track-name{
+    font-family:'Sora',sans-serif;font-weight:700;font-size:0.92rem;color:var(--teal-ink);
+  }
+  .track-btn.active .track-name{color:var(--teal-deep);}
+  .track-desc{font-size:0.74rem;color:var(--muted);line-height:1.35;}
+
+  @media(max-width:600px){
+    .track-grid{grid-template-columns:1fr;}
+    .track-btn{flex-direction:row;align-items:center;gap:12px;}
+    .track-btn-top{gap:10px;}
+    .track-desc{display:none;}
+  }
+
   /* Duration Pills */
   .duration-pills{
     display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
@@ -819,15 +862,15 @@
     <div class="membership-showcase">
       <div class="badge-card">
         <div class="badge-img-box">
-          <img src="assets/badge-sahabat-yatim.jpg" alt="Official Badge Sahabat Anak Yatim" class="badge-img" />
-          <div class="badge-tag">Official Enamel Pin</div>
+          <img src="assets/badge-sahabat-yatim.jpg" alt="Official Badge Sahabat Anak Yatim" class="badge-img" id="showcaseBadgeImg" />
+          <div class="badge-tag" id="showcaseBadgeTag">Official Enamel Pin</div>
         </div>
         <div class="badge-card-content">
           <div class="badge-ribbon">
-            <span>✨ Jadi Sahabat Anak Yatim</span>
+            <span id="showcaseRibbonText">✨ Jadi Sahabat Anak Yatim</span>
           </div>
-          <p class="badge-sub">Dapatkan <strong>badge Sahabat Anak Yatim</strong> eksklusif dengan berdonasi minimal <strong>Rp100.000/bulan</strong> sebagai simbol kepedulian nyata.</p>
-          <ul class="benefit-list">
+          <p class="badge-sub" id="showcaseBadgeSub">Dapatkan <strong>badge Sahabat Anak Yatim</strong> eksklusif dengan berdonasi minimal <strong>Rp100.000/bulan</strong> sebagai simbol kepedulian nyata.</p>
+          <ul class="benefit-list" id="showcaseBenefitList">
             <li>
               <span class="check-icon">✓</span>
               <div><strong>Bantuan Langsung:</strong> Membantu anak-anak yatim lewat program pendidikan, gizi, dan tempat tinggal layak.</div>
@@ -840,7 +883,7 @@
               <span class="check-icon">✓</span>
               <div><strong>Komunitas Peduli:</strong> Menjadi bagian resmi dari keluarga besar Sahabat Anak Yatim Indonesia.</div>
             </li>
-            <li>
+            <li id="benefitBadgeItem">
               <span class="check-icon">✓</span>
               <div><strong>Paket Spesial Donatur:</strong> Mendapatkan kiriman fisik <em>badge Sahabat Anak Yatim</em> eksklusif langsung ke alamatmu.</div>
             </li>
@@ -870,16 +913,47 @@
         <p class="form-desc" id="badgeNotice">Dapatkan <strong>badge Sahabat Anak Yatim</strong> dengan berdonasi minimal <strong>Rp100.000/bulan</strong></p>
       </div>
 
-      <!-- 1. Pilih Nominal -->
+      <!-- 1. Pilih Jalur Dukunganmu -->
+      <div class="form-step" id="trackStep">
+        <label class="step-label"><span class="step-num">1.</span> Pilih Jalur Dukunganmu:</label>
+        <div class="track-grid">
+          <button type="button" class="track-btn active" data-track="pendidikan" id="trackPendidikan">
+            <div class="track-btn-top">
+              <span class="track-icon">🎓</span>
+              <span class="track-check">✓</span>
+            </div>
+            <strong class="track-name">Pendidikan</strong>
+            <span class="track-desc">Beasiswa, seragam & buku sekolah</span>
+          </button>
+          <button type="button" class="track-btn" data-track="kesehatan" id="trackKesehatan">
+            <div class="track-btn-top">
+              <span class="track-icon">🏥</span>
+              <span class="track-check">✓</span>
+            </div>
+            <strong class="track-name">Kesehatan</strong>
+            <span class="track-desc">Pemeriksaan medis & nutrisi gizi</span>
+          </button>
+          <button type="button" class="track-btn" data-track="tempat-tinggal" id="trackTempatTinggal">
+            <div class="track-btn-top">
+              <span class="track-icon">🏡</span>
+              <span class="track-check">✓</span>
+            </div>
+            <strong class="track-name">Tempat Tinggal</strong>
+            <span class="track-desc">Fasilitas panti & hunian layak</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. Pilih Nominal -->
       <div class="form-step">
-        <label class="step-label">1. Pilih Nominal Donasi:</label>
+        <label class="step-label"><span class="step-num">2.</span> Pilih Nominal Donasi:</label>
         <div class="nominal-grid">
           <button type="button" class="nominal-btn" data-val="50000">
             <span class="n-val">Rp50.000</span>
             <span class="n-unit" id="unit50">/ bln</span>
           </button>
           <button type="button" class="nominal-btn active" data-val="100000">
-            <span class="n-tag">Dapat Badge ⭐</span>
+            <span class="n-tag" id="badgeTag100">Dapat Badge ⭐</span>
             <span class="n-val">Rp100.000</span>
             <span class="n-unit" id="unit100">/ bln</span>
           </button>
@@ -901,9 +975,9 @@
         </div>
       </div>
 
-      <!-- 2. Pilihan Lama Berdonasi -->
+      <!-- 3. Pilihan Lama Berdonasi -->
       <div class="form-step" id="durationStep">
-        <label class="step-label">2. Pilih Lama Berdonasi:</label>
+        <label class="step-label"><span class="step-num">3.</span> Pilih Lama Berdonasi:</label>
         <div class="duration-pills">
           <button type="button" class="duration-pill" data-months="6">
             6 Bulan
@@ -920,9 +994,9 @@
         </div>
       </div>
 
-      <!-- 3. Metode Pembayaran -->
+      <!-- 4. Metode Pembayaran -->
       <div class="form-step">
-        <label class="step-label">3. Pilih Metode Pembayaran:</label>
+        <label class="step-label"><span class="step-num">4.</span> Pilih Metode Pembayaran:</label>
         <div class="payment-select-wrap">
           <select id="paymentMethod" class="form-input custom-select">
             <option value="qris">📱 QRIS / E-Wallet (GoPay, OVO, ShopeePay, DANA)</option>
@@ -935,9 +1009,9 @@
         </div>
       </div>
 
-      <!-- 4. Lengkapi Data Donatur & Pengiriman Badge -->
+      <!-- 5. Lengkapi Data Donatur & Pengiriman Badge -->
       <div class="form-step">
-        <label class="step-label">4. Lengkapi Data Anda:</label>
+        <label class="step-label"><span class="step-num">5.</span> Lengkapi Data Anda:</label>
         <div class="input-group">
           <input type="text" id="donorName" class="form-input" placeholder="Nama lengkap Anda *" required value="Budi Santoso" />
         </div>
@@ -974,28 +1048,32 @@
   <!-- Modal Sukses Donasi & Join -->
   <div class="modal-backdrop" id="successModal" style="display:none;">
     <div class="modal-box">
-      <div class="modal-badge-preview">
+      <div class="modal-badge-preview" id="modalBadgePreview">
         <img src="assets/badge-sahabat-yatim.jpg" alt="Badge Sahabat Anak Yatim" />
       </div>
       <div class="modal-header">
-        <div class="modal-icon">🎉</div>
-        <h3>Selamat Datang, Sahabat Kebaikan!</h3>
-        <p>Komitmenmu menjadi pelita baru bagi masa depan anak-anak yatim.</p>
+        <div class="modal-icon" id="modalIcon">🎉</div>
+        <h3 id="modalTitle">Selamat Datang, Sahabat Kebaikan!</h3>
+        <p id="modalSubtitle">Komitmenmu menjadi pelita baru bagi masa depan anak-anak yatim.</p>
       </div>
       <div class="modal-details">
         <div class="modal-row">
           <span>Status:</span>
-          <strong class="text-teal">Sahabat Anak Yatim Aktif</strong>
+          <strong class="text-teal" id="modalStatusText">Sahabat Anak Yatim Aktif</strong>
+        </div>
+        <div class="modal-row">
+          <span>Jalur Dukungan:</span>
+          <strong class="text-teal" id="modalTrackText">Pendidikan Anak Yatim</strong>
         </div>
         <div class="modal-row">
           <span>Nominal Donasi:</span>
           <strong id="modalNominal">Rp100.000 / bulan</strong>
         </div>
-        <div class="modal-row">
+        <div class="modal-row" id="modalDurationRow">
           <span>Durasi Komitmen:</span>
           <strong id="modalDuration">12 Bulan</strong>
         </div>
-        <div class="modal-row">
+        <div class="modal-row" id="modalBadgeRow">
           <span>Pengiriman Badge:</span>
           <strong class="text-amber" id="modalBadgeStatus">Sedang Diproses ke Alamatmu 📦</strong>
         </div>
@@ -1157,6 +1235,19 @@
     let freq = 'monthly';
     let nominal = 100000;
     let months = 12;
+    let selectedTrack = 'pendidikan';
+
+    const trackNames = {
+      'pendidikan': 'Pendidikan Anak Yatim',
+      'kesehatan': 'Kesehatan & Gizi Anak Yatim',
+      'tempat-tinggal': 'Tempat Tinggal & Panti Yatim'
+    };
+
+    const trackShortNames = {
+      'pendidikan': 'Pendidikan',
+      'kesehatan': 'Kesehatan',
+      'tempat-tinggal': 'Tempat Tinggal'
+    };
 
     const tabMonthly = document.getElementById('tabMonthly');
     const tabOnce = document.getElementById('tabOnce');
@@ -1169,12 +1260,42 @@
     const customAmountInput = document.getElementById('customAmountInput');
     const nominalButtons = document.querySelectorAll('.nominal-btn');
     const durationPills = document.querySelectorAll('.duration-pill');
+    const trackButtons = document.querySelectorAll('.track-btn');
+    const badgeTag100 = document.getElementById('badgeTag100');
+    const addressGroup = document.getElementById('addressGroup');
     const btnSubmitDonate = document.getElementById('btnSubmitDonate');
     const successModal = document.getElementById('successModal');
     const modalGoDashboard = document.getElementById('modalGoDashboard');
 
+    // Showcase elements
+    const showcaseBadgeTag = document.getElementById('showcaseBadgeTag');
+    const showcaseRibbonText = document.getElementById('showcaseRibbonText');
+    const showcaseBadgeSub = document.getElementById('showcaseBadgeSub');
+    const benefitBadgeItem = document.getElementById('benefitBadgeItem');
+
+    // Modal elements
+    const modalBadgePreview = document.getElementById('modalBadgePreview');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+    const modalStatusText = document.getElementById('modalStatusText');
+    const modalTrackText = document.getElementById('modalTrackText');
+    const modalDurationRow = document.getElementById('modalDurationRow');
+    const modalBadgeRow = document.getElementById('modalBadgeRow');
+    const modalBadgeStatus = document.getElementById('modalBadgeStatus');
+
     function formatRp(val){
       return 'Rp' + Number(val).toLocaleString('id-ID');
+    }
+
+    function refreshStepNumbers(){
+      let stepIndex = 1;
+      document.querySelectorAll('.membership-form-card .form-step').forEach(step => {
+        if(step.style.display !== 'none'){
+          const numSpan = step.querySelector('.step-num');
+          if(numSpan) numSpan.textContent = stepIndex + '.';
+          stepIndex++;
+        }
+      });
     }
 
     function updateSummary(){
@@ -1190,9 +1311,29 @@
         } else {
           badgeInfo = ' • 💡 Tambah donasi min. Rp100.000/bln untuk dapat pin badge eksklusif.';
         }
-        durationCalc.innerHTML = `💡 Komitmen: <strong>${formatted} / bulan</strong> selama <strong>${months} bulan</strong> (Total estimasi: ${formatRp(total)})${badgeInfo}`;
+        durationCalc.innerHTML = `💡 Komitmen: <strong>${formatted} / bulan</strong> selama <strong>${months} bulan</strong> (Total estimasi: ${formatRp(total)}) untuk jalur <strong>${trackNames[selectedTrack]}</strong>${badgeInfo}`;
       }
     }
+
+    // Track Selector Buttons
+    trackButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        trackButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedTrack = btn.dataset.track;
+        updateSummary();
+      });
+    });
+
+    window.selectDonationTrack = function(trackKey){
+      const targetBtn = document.querySelector(`.track-btn[data-track="${trackKey}"]`);
+      if(targetBtn){
+        trackButtons.forEach(b => b.classList.remove('active'));
+        targetBtn.classList.add('active');
+        selectedTrack = trackKey;
+        updateSummary();
+      }
+    };
 
     // Tabs
     if(tabMonthly && tabOnce){
@@ -1203,9 +1344,21 @@
         durationStep.style.display = 'block';
         formHeaderTitle.textContent = 'BUAT PERUBAHAN UNTUK SETIAP ANAK SETIAP BULAN';
         badgeNotice.innerHTML = 'Dapatkan <strong>badge Sahabat Anak Yatim</strong> dengan berdonasi minimal <strong>Rp100.000/bulan</strong>';
+        
+        // Tampilkan badge tag dan alamat untuk bulanan
+        if(badgeTag100) badgeTag100.style.display = 'inline-block';
+        if(addressGroup) addressGroup.style.display = 'block';
+
+        // Kembalikan konten showcase ke paket bulanan & badge
+        if(showcaseBadgeTag) showcaseBadgeTag.textContent = 'Official Enamel Pin';
+        if(showcaseRibbonText) showcaseRibbonText.textContent = '✨ Jadi Sahabat Anak Yatim';
+        if(showcaseBadgeSub) showcaseBadgeSub.innerHTML = 'Dapatkan <strong>badge Sahabat Anak Yatim</strong> eksklusif dengan berdonasi minimal <strong>Rp100.000/bulan</strong> sebagai simbol kepedulian nyata.';
+        if(benefitBadgeItem) benefitBadgeItem.style.display = 'flex';
+
         document.querySelectorAll('.n-unit').forEach(el => {
           if(el.id && el.id.startsWith('unit')) el.textContent = '/ bln';
         });
+        refreshStepNumbers();
         updateSummary();
       });
 
@@ -1215,10 +1368,23 @@
         tabMonthly.classList.remove('active');
         durationStep.style.display = 'none';
         formHeaderTitle.textContent = 'BERIKAN DUKUNGAN TERBAIK UNTUK ANAK YATIM';
-        badgeNotice.innerHTML = '💡 <em>Tip: Pilih program bulanan minimal Rp100.000/bln untuk mendapatkan pin badge eksklusif.</em>';
+        // HILANGKAN kata-kata benefit badge pada donasi satu kali
+        badgeNotice.innerHTML = 'Dukungan satu kali untuk pemenuhan kebutuhan dasar dan kebahagiaan adik-adik yatim.';
+
+        // Sembunyikan badge tag dan alamat pengiriman badge
+        if(badgeTag100) badgeTag100.style.display = 'none';
+        if(addressGroup) addressGroup.style.display = 'none';
+
+        // Ubah showcase tanpa janji badge
+        if(showcaseBadgeTag) showcaseBadgeTag.textContent = 'Bantuan Langsung';
+        if(showcaseRibbonText) showcaseRibbonText.textContent = '✨ Donasi Satu Kali';
+        if(showcaseBadgeSub) showcaseBadgeSub.innerHTML = 'Salurkan donasi terbaikmu secara langsung untuk mendukung adik-adik yatim pada jalur pilihanmu.';
+        if(benefitBadgeItem) benefitBadgeItem.style.display = 'none';
+
         document.querySelectorAll('.n-unit').forEach(el => {
           if(el.id && el.id.startsWith('unit')) el.textContent = 'Sekali';
         });
+        refreshStepNumbers();
         updateSummary();
       });
     }
@@ -1268,18 +1434,35 @@
         const donorName = nameInput ? (nameInput.value.trim() || 'Sahabat Kebaikan') : 'Sahabat Kebaikan';
         const modalNominal = document.getElementById('modalNominal');
         const modalDuration = document.getElementById('modalDuration');
-        const modalBadgeStatus = document.getElementById('modalBadgeStatus');
 
         if(modalNominal) modalNominal.textContent = formatRp(nominal) + (freq === 'monthly' ? ' / bulan' : ' (Satu Kali)');
-        if(modalDuration) modalDuration.textContent = freq === 'monthly' ? months + ' Bulan' : 'Sekali Bayar';
-        if(modalBadgeStatus){
-          if(nominal >= 100000 && freq === 'monthly'){
-            modalBadgeStatus.textContent = 'Sedang Diproses ke Alamatmu 📦';
-            modalBadgeStatus.className = 'text-amber';
+        if(modalTrackText) modalTrackText.textContent = trackNames[selectedTrack];
+
+        if(freq === 'monthly'){
+          if(modalTitle) modalTitle.textContent = 'Selamat Datang, Sahabat Kebaikan!';
+          if(modalSubtitle) modalSubtitle.textContent = 'Komitmenmu menjadi pelita baru bagi masa depan anak-anak yatim.';
+          if(modalStatusText) modalStatusText.textContent = 'Sahabat Rutin Aktif';
+          if(modalDurationRow) modalDurationRow.style.display = 'flex';
+          if(modalDuration) modalDuration.textContent = months + ' Bulan';
+          if(modalBadgePreview) modalBadgePreview.style.display = 'block';
+
+          if(nominal >= 100000){
+            if(modalBadgeRow) modalBadgeRow.style.display = 'flex';
+            if(modalBadgeStatus){
+              modalBadgeStatus.textContent = 'Sedang Diproses ke Alamatmu 📦';
+              modalBadgeStatus.className = 'text-amber';
+            }
           } else {
-            modalBadgeStatus.textContent = 'Terima kasih atas kebaikan hatimu 💖';
-            modalBadgeStatus.className = 'text-teal';
+            if(modalBadgeRow) modalBadgeRow.style.display = 'none';
           }
+        } else {
+          // Donasi Satu Kali: Hilangkan benefit badge sepenuhnya
+          if(modalTitle) modalTitle.textContent = 'Terima Kasih, Orang Baik!';
+          if(modalSubtitle) modalSubtitle.textContent = 'Kebaikanmu hari ini sangat berarti untuk masa depan dan senyuman adik-adik yatim.';
+          if(modalStatusText) modalStatusText.textContent = 'Donatur Peduli (Satu Kali)';
+          if(modalDurationRow) modalDurationRow.style.display = 'none';
+          if(modalBadgeRow) modalBadgeRow.style.display = 'none';
+          if(modalBadgePreview) modalBadgePreview.style.display = 'none';
         }
 
         // Show Modal
@@ -1305,6 +1488,13 @@
           avatarEl.textContent = initials || 'BS';
         }
 
+        // Update Dukungan Bulan Ini di KPI Dashboard
+        const kpiCards = document.querySelectorAll('.kpi-card');
+        if(kpiCards && kpiCards.length >= 4){
+          const valEl = kpiCards[3].querySelector('.val');
+          if(valEl) valEl.textContent = trackNames[selectedTrack];
+        }
+
         goTo('dashboard');
       });
     }
@@ -1317,6 +1507,7 @@
     }
 
     // Init display
+    refreshStepNumbers();
     updateSummary();
   })();
 </script>
